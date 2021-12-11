@@ -21,7 +21,8 @@
   },
   "homepage": "https://github.com/datfoosteve/htmlGenerator#readme",
   "dependencies": {
-    "inquirer": "^8.2.0"
+    "inquirer": "^8.2.0",
+    "normalize.css": "^8.0.1"
   },
   "devDependencies": {
     "jest": "^27.4.3"
