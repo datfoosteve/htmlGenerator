@@ -8,7 +8,7 @@ const fs = require('fs');
 
 
 //Create team array
-const teamArray = [];
+const memberData = [];
 
 
 
@@ -79,3 +79,10 @@ const initManager = () => {
 
 //returns the string of the html , save it , save it in the dist folder as index.html
 
+function initTeam(){
+  console.log("newbie", memberData)
+  fs.writeFileSync(
+    "./dist.index.html", genHTML(memberData), "utf-8"
+  );
+
+}
