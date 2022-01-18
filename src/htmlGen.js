@@ -12,7 +12,7 @@ const htmlGen = data =>{
     <body>
         
         <nav class="navbar navbar-dark bg-dark mb-5">
-            <span class="navbar-brand mb-0 h1 w-100 text-center">Team Profile</span>
+            <span class="navbar-brand mb-0 h1 w-100 text-center">Generated Profile</span>
         </nav>
         <div class="container">
             <div class="row"><div class="col-6">
@@ -30,16 +30,16 @@ const htmlGen = data =>{
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID:${data[1].getId()}</li>
                 <li class="list-group-item">Email Address:${data[1].getEmail()}</li>
-                <li class="list-group-item">GitHub:${data[1].getEmail()}</li>
+                <li class="list-group-item">GitHub:${data[1].getGit()}</li>
             </ul>
             </div>
         </div><div class="col-6">
             <div class="card mx-auto mb-3" style="width: 18rem">
             <h5 class="card-header">Dwight Schrute<br /><br />${data[2].getRole()}</h5>
             <ul class="list-group list-group-flush">
-                <li class="list-group-item">${data[2].getEmail()}</li>
-                <li class="list-group-item">Email Address: ${data[2].getEmail()}</li>
-                <li class="list-group-item">School:${data[2].getEmail()}</li>
+                <li class="list-group-item">ID:${data[2].getId()}</li>
+                <li class="list-group-item">Email Address:${data[2].getEmail()}</li>
+                <li class="list-group-item">School:${data[2].getSchool()}</li>
             </ul>
             </div>
         </div> </div>
