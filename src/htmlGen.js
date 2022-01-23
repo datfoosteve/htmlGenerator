@@ -1,56 +1,69 @@
+let arrHeadData = "";
+let arrTailData = "";
+let arrBodyData = "";
+let fullString = "";
+/** 
+ * 
+/* Creating a function that will generate HTML code for the questions. */
+const htmlGen = (data) => {
+  arrHeadData = (`<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <title>teamHtmlGenerator</title><nav class="navbar navbar-dark bg-dark mb-5">
+    <span class="navbar-brand mb-0 h1 w-100 text-center">Generated Profile</span>
+</nav>
+</head>
+<body><div class="container">`);
 
-const htmlGen = data =>{
-    return `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-        <title>teamHtmlGenerator</title>
-    </head>
-    <body>
-        
-        <nav class="navbar navbar-dark bg-dark mb-5">
-            <span class="navbar-brand mb-0 h1 w-100 text-center">Generated Profile</span>
-        </nav>
-        <div class="container">
-            <div class="row"><div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">Michael Scott<br /><br />${data[0].getRole()}</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID:${data[0].getId()}</li>
-                <li class="list-group-item">Email Address: ${data[0].getEmail()}</li>
-                <li class="list-group-item">Office Phone:${data[0].getOfficeNumber()}</li>
-            </ul>
-            </div>
-        </div><div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">Ryan Ellingson<br /><br />${data[1].getRole()}</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID:${data[1].getId()}</li>
-                <li class="list-group-item">Email Address:${data[1].getEmail()}</li>
-                <li class="list-group-item">GitHub:${data[1].getGit()}</li>
-            </ul>
-            </div>
-        </div><div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-header">Dwight Schrute<br /><br />${data[2].getRole()}</h5>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID:${data[2].getId()}</li>
-                <li class="list-group-item">Email Address:${data[2].getEmail()}</li>
-                <li class="list-group-item">School:${data[2].getSchool()}</li>
-            </ul>
-            </div>
-        </div> </div>
-    </div>
-    
-    </body>
-    </html>`
-}
-    
+  for (let i = 0; i < data.length; i++) {
+    let a;
+    switch (data[i].getRole() === a) {
+      case a === "Manager":
+        arrBodyData = (`<div class="row"><div class="col-6">
+        <div class="card mx-auto mb-3" style="width: 18rem">
+        <h5 class="card-heading">${data[i].getName()}<br /><br />${data[i].getRole()}</h5>
+        <div class="card-body">
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">ID:${data[i].getId()}</li>
+            <li class="list-group-item">Email Address: ${data[i].getEmail()}</li>
+            <li class="list-group-item">Office Phone: ${data[i].getOfficeNumber(true)}</li> </
+        </ul>
+        </div></div></div>`);
+         break;
+      case a === "Engineer":
+        arrBodyData = (`<div class="row"><div class="col-6">
+<div class="card mx-auto mb-3" style="width: 18rem">
+<h5 class="card-heading">${data[i].getName()}<br /><br />${data[i].getRole()}</h5>
+<div class="card-body">
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">ID:${data[i].getId()}</li>
+    <li class="list-group-item">Email Address: ${data[i].getEmail()}</li>
+    <li class="list-group-item">Github:${data[i].getGithub()}</li>
+</ul>
+</div></div></div>`);
+        break;
+      case a === "Intern":
+        arrBodyData = (`<div class="row"><div class="col-6">
+<div class="card mx-auto mb-3" style="width: 18rem">
+<h5 class="card-heading">${data[i].getName()}<br /><br />${data[i].getRole()}</h5>
+<div class="card-body">
+<ul class="list-group list-group-flush">
+    <li class="list-group-item">ID:${data[i].getId()}</li>
+    <li class="list-group-item">Email Address: ${data[i].getEmail()}</li>
+    <li class="list-group-item">School:${data[i].getSchool()}</li>
+</ul>
+</div></div></div>`);
+    }
+  }
 
+  arrTailData = (`</body></html>`);
 
+  return arrHeadData + (arrBodyData + arrTailData);
+};
 
-
- module.exports = htmlGen;
+module.exports = htmlGen;
