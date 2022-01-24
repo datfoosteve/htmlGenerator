@@ -13,8 +13,7 @@ const teamArray = [Engineer, Manager, Intern];
 // Async process to seperate user input from page load
 const initTeamMember = async() => {
   console.log("Add a team member!");
-  inquirer//conditional to route the prompts for whether what employee type they are
-    .prompt([
+  inquirer.prompt([
       {
         type: "list",
         name: "role",
@@ -118,17 +117,7 @@ const initTeamMember = async() => {
     .then((employeeInput) => {
       let { name, id, email, role, github, school, officeNumber,moreMembers } =
         employeeInput;
-
-      let newbie = () => {
-       if (role === "Manager") {
-          newbie = new Manager(name, id, email, officeNumber);
-        } else if (role === "Engineer") {
-          newbie = new Engineer(name, id, email, github);
-        } else if (role === "Intern") {
-          newbie = new Intern(name, id, email, school);
-        } else {console.log("Error: Newbie did not get trained")}
-      }
-
+      let newbie;
       if (role === "Manager") {
         console.log("Process: Newbie is training to become Manager!");
         newbie = new Manager(name, id, email, officeNumber);
@@ -140,7 +129,7 @@ const initTeamMember = async() => {
         newbie = new Intern(name, id, email, school);
       } else {console.log("Error: Newbie had upset stomach and did not get trained")}
      
-      console.log("Success: Newbie evolved into an employee.");
+      console.log(`Success: Newbie evolved into an ${role}!!!`);
       teamArray.push(newbie);
       
       bodyofHTML(newbie);
@@ -159,6 +148,7 @@ function headOfHTML(){
       <meta http-equiv="X-UA-Compatible" content="IE=edge">
       <meta name="viewport" content="width=device-width, initial-scale=1.0">
       <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <link rel="stylesheet" href="./assets/style.css">
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <title>teamHtmlGenerator</title><nav class="navbar navbar-dark bg-dark mb-5">
@@ -166,7 +156,7 @@ function headOfHTML(){
   </nav>
   </head>
   <body><div class="container">`;
-  fs.writeFileSync("./dist/index.html", headNode, {flag: 'a+'});
+  fs.writeFileSync("./dist/index.html", headNode);
 }
 
 function bodyofHTML(member) {
@@ -181,8 +171,10 @@ function bodyofHTML(member) {
       const officeNumber = member.getOfficeNumber();
       information = `<div class="row"><div class="col-6">
           <div class="card mx-auto mb-3" style="width: 18rem">
-          <h5 class="card-heading">${name}<br /><br />${role}</h5>
-          <div class="card-body">
+          <h5 class="card-heading">${name}</h5>
+          <img class="card-img-top bg-transparent" src="./assets/manager.png" alt="managerImg">
+          <span class="badge badge-pill badge-danger">${role}</span>
+          <div class="card-body bg-light">
           <ul class="list-group list-group-flush">
               <li class="list-group-item">ID:${id}</li>
               <li class="list-group-item">Email Address: ${email}</li>
@@ -190,11 +182,13 @@ function bodyofHTML(member) {
           </ul>
           </div></div></div>`;
     } else if (role === "Engineer") {
-      const gitHub = member.getGit();
+      const gitHub = member.getGithub();
       information = `<div class="row"><div class="col-6">
             <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-heading">${name}<br /><br />${roll}</h5>
-            <div class="card-body">
+            <h5 class="card-heading">${name}</h5>
+            <img class="card-img-top bg-transparent" src="./assets/engineer.png" alt="engineerImg">
+            <span class="badge badge-pill badge-success">${role}</span>
+            <div class="card-body bg-light">
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID:${id}</li>
                 <li class="list-group-item">Email Address: ${email}</li>
@@ -205,8 +199,10 @@ function bodyofHTML(member) {
       const school = member.getSchool();
       information = `<div class="row"><div class="col-6">
               <div class="card mx-auto mb-3" style="width: 18rem">
-              <h5 class="card-heading">${name}<br /><br />${role}</h5>
-              <div class="card-body">
+              <h5 class="card-heading">${name}</h5>
+              <img class="card-img-top bg-transparent" src="./assets/intern.png" alt="internImg">
+              <span class="badge badge-pill badge-success">${role}</span>
+              <div class="card-body bg-light">
               <ul class="list-group list-group-flush">
                   <li class="list-group-item">ID:${id}</li>
                   <li class="list-group-item">Email Address: ${email}</li>
