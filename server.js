@@ -8,10 +8,10 @@ const inquirer = require("inquirer");
 const fs = require("fs");
 
 //Create team array
-const teamArray = [];
+const teamArray = [Engineer, Manager, Intern];
 
-// Async because while page loads up we can not have to wait on prompts(userInput), it is generally awaited
-const initTeamMember = () => {
+// Async process to seperate user input from page load
+const initTeamMember = async() => {
   console.log("Add a team member!");
   inquirer//conditional to route the prompts for whether what employee type they are
     .prompt([
@@ -22,7 +22,7 @@ const initTeamMember = () => {
         choices: ["Manager", "Engineer", "Intern"],
       },
       {
-        // these ask the general questions that every employee has
+        // these ask the general questions that every employee class has
         type: "input",
         name: "name",
         message: (employeeInput) => `Enter ${employeeInput.role}'s name:`,
@@ -38,7 +38,7 @@ const initTeamMember = () => {
       {
         type: "number",
         name: "id",
-        message: (employeeInput) => `Enter ${employeeInput.role}'s id:`,
+        message: (employeeInput) => `Enter ${employeeInput.name}'s id:`,
         validate: (numInput) => {
           if (numInput) {
             return true;
@@ -52,7 +52,7 @@ const initTeamMember = () => {
         // tagged template literal `placeholders` allow dynamic variability in these strings
         type: "input",
         name: "email",
-        message: (employeeInput) => `Enter ${employeeInput.role}'s email:`,
+        message: (employeeInput) => `Enter ${employeeInput.name}'s email:`,
         validate: (email) => {
           valid = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email);
           if (valid) {
@@ -67,7 +67,7 @@ const initTeamMember = () => {
         type: "input",
         name: "github",
         message: (employeeInput) =>
-          `Enter ${employeeInput.role}'s github username:`,
+          `Enter ${employeeInput.name}'s github username:`,
         when: (input) => input.role === "Engineer",
         validate: (nameInput) => {
           if (nameInput) {
@@ -81,7 +81,8 @@ const initTeamMember = () => {
       {
         type: 'input',
         name: 'officeNumber',
-        message: "What is the manager's office number?",
+        message: (employeeInput) =>
+          `Enter ${employeeInput.name}'s office number:`,
         when: (input) => input.role === "Manager",
         validate: nameInput => {
           if (nameInput) {
@@ -95,7 +96,8 @@ const initTeamMember = () => {
       {
         type: "input",
         name: "school",
-        message: "Enter intern's school name:",
+        message: (employeeInput) =>
+        `Enter ${employeeInput.name}'s school name:`,
         when: (input) => input.role === "Intern",
         validate: (nameInput) => {
           if (nameInput) {
@@ -114,27 +116,33 @@ const initTeamMember = () => {
       },
     ])
     .then((employeeInput) => {
-      const { name, id, email, role, github, school, officeNumber,moreMembers } =
+      let { name, id, email, role, github, school, officeNumber,moreMembers } =
         employeeInput;
 
-      let newbie;
+      let newbie = () => {
+       if (role === "Manager") {
+          newbie = new Manager(name, id, email, officeNumber);
+        } else if (role === "Engineer") {
+          newbie = new Engineer(name, id, email, github);
+        } else if (role === "Intern") {
+          newbie = new Intern(name, id, email, school);
+        } else {console.log("Error: Newbie did not get trained")}
+      }
 
       if (role === "Manager") {
+        console.log("Process: Newbie is training to become Manager!");
         newbie = new Manager(name, id, email, officeNumber);
       } else if (role === "Engineer") {
+        console.log("Process: Newbie is training to become Engineer!");
         newbie = new Engineer(name, id, email, github);
       } else if (role === "Intern") {
+        console.log("Process: Newbie is training to become Intern!");
         newbie = new Intern(name, id, email, school);
-      } else {console.log("Error: Newbie did not get trained")}
+      } else {console.log("Error: Newbie had upset stomach and did not get trained")}
      
-      console.log("Success: Newbie evolved into {newbie.role} !");
+      console.log("Success: Newbie evolved into an employee.");
       teamArray.push(newbie);
       
-      // The function, bodyofHTML is called inside InitTeamMember because 
-      // my functions being invoked one after another, and body is only
-      // invoked with information depending if the user still wants to create
-      // more TeamMembers. Only until all the information for how many team members are given, then
-      // we invoke the TailHTML;
       bodyofHTML(newbie);
       if (moreMembers) {
         return initTeamMember(teamArray);
@@ -154,11 +162,11 @@ function headOfHTML(){
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
       <title>teamHtmlGenerator</title><nav class="navbar navbar-dark bg-dark mb-5">
-      <span class="navbar-brand mb-0 h1 w-100 text-center">Generated Profile</span>
+      <span class="navbar-brand mb-0 h1 w-100 text-center">Team Profile Generator</span>
   </nav>
   </head>
   <body><div class="container">`;
-  fs.writeFileSync("./dist/index.html", headNode);
+  fs.writeFileSync("./dist/index.html", headNode, {flag: 'a+'});
 }
 
 function bodyofHTML(member) {
