@@ -1,4 +1,5 @@
 // const genHTML = require("./src/htmlGen");
+
 const Engineer = require("./lib/Engineer");
 const Manager = require("./lib/Manager");
 const Intern = require("./lib/Intern");
@@ -8,10 +9,9 @@ const fs = require("fs");
 
 //Create team array
 const teamArray = [];
-const htmlArray = [];
 
 // Async because while page loads up we can not have to wait on prompts(userInput), it is generally awaited
-const initTeamMember = (htmlArray) => {
+const initTeamMember = () => {
   console.log("Add a team member!");
   inquirer//conditional to route the prompts for whether what employee type they are
     .prompt([
@@ -135,31 +135,33 @@ const initTeamMember = (htmlArray) => {
       // invoked with information depending if the user still wants to create
       // more TeamMembers. Only until all the information for how many team members are given, then
       // we invoke the TailHTML;
-
+      bodyofHTML(newbie);
       if (moreMembers) {
         return initTeamMember(teamArray);
       } else {
-        tailHTML(htmlArray);
+        tailHTML();
       }
     });
 };
 
-function headOfHTML(htmlArray){
-  const headNode = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0"><link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"><script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script><script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script><title>teamHtmlGenerator</title><nav class="navbar navbar-dark bg-dark mb-5"><span class="navbar-brand mb-0 h1 w-100 text-center">Generated Profile</span></nav></head><body><div class="container">`;
-  htmlArray.push(headNode);
-  // fs.writeFile("./dist/index.html", headNode, function (err) {
-  //   if (err) {
-  //     console.log("Process:headOfHTML() = Fail")
-  //     console.log(err);
-  //   }
-  //   else{
-  //     console.log("Process:headOfHTML() = Success");
-  //     console.clear();
-  //   }
-  // });
+function headOfHTML(){
+  const headNode = `<!DOCTYPE html><html lang="en">
+  <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+      <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+      <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      <title>teamHtmlGenerator</title><nav class="navbar navbar-dark bg-dark mb-5">
+      <span class="navbar-brand mb-0 h1 w-100 text-center">Generated Profile</span>
+  </nav>
+  </head>
+  <body><div class="container">`;
+  fs.writeFileSync("./dist/index.html", headNode);
 }
 
-function bodyofHTML(member, htmlArray) {
+function bodyofHTML(member) {
   return new Promise(function (resolve, reject) {
     const name = member.getName();
     const role = member.getRole();
@@ -206,31 +208,16 @@ function bodyofHTML(member, htmlArray) {
     }
 
     console.log("All Info Gathered For Team Member ");
-  // fs.writeFile("./dist/index.html", information, function (err) {
-  //   if (err) {
-  //     console.log("Process:appendfileSync = rejected")
-  //     return reject(err);
-  //   }
-  //   return resolve();
-  // });
-  htmlArray.push(information);
+  fs.writeFileSync("./dist/index.html", information, {flag: 'a'});
   });
 }
 
-function tailHTML(htmlArray){
+function tailHTML(){
   const html = ` </div></div></body></html>`;
-  htmlArray.push(html);
-  fs.writeFile("./dist/index.html", JSON.stringify(htmlArray), function (err) {
-    if (err) {
-      console.log("Process:tailHTML() = Fail")
-      console.log(err);
-    }
-    else{
-      console.log("Process:tailHTML() = Success")
-    }
-  });
+
+  fs.writeFileSync("./dist/index.html", html, {flag: 'a'});
   console.log("Inquiry Complete!");
-}
+};
 
 // These are the only functions that are called in the beginnning, because
 // the head of the html page only needs to be called once, and the tail, which is called
@@ -238,6 +225,6 @@ function tailHTML(htmlArray){
 // Since we are dynamically changing the body depending on team member count, most of the work gets done
 // there.
 
-headOfHTML(htmlArray);
+headOfHTML();
 
-initTeamMember(htmlArray);
+initTeamMember();
