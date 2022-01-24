@@ -127,7 +127,7 @@ const initTeamMember = () => {
         newbie = new Intern(name, id, email, school);
       } else {console.log("Error: Newbie did not get trained")}
      
-      console.log("Success: Newbie evolved into TeamMember!");
+      console.log("Success: Newbie evolved into {newbie.role} !");
       teamArray.push(newbie);
       
       // The function, bodyofHTML is called inside InitTeamMember because 
@@ -190,7 +190,7 @@ function bodyofHTML(member) {
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID:${id}</li>
                 <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">Office Phone: ${office}</li> </
+                <li class="list-group-item">Github Username: ${gitHub}</li> </
             </ul>
             </div></div></div>`;
     } else if (role === "Intern") {
