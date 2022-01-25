@@ -6,6 +6,21 @@ const Intern = require("./lib/Intern");
 
 const inquirer = require("inquirer");
 const fs = require("fs");
+// var heavyAudio = new Audio("https://wiki.teamfortress.com/w/images/a/a7/Heavy_specialcompleted-assistedkill01.wav");
+// heavyAudio.addEventListener('loadeddata', () => {
+//   let duration = heavyAudio.duration;
+// });
+
+// /* Creating an audio object and setting it to a variable. */
+// var scoutAudio = new Audio("https://wiki.teamfortress.com/w/images/0/02/Scout_taunt_conga_fun_12.wav");
+// scoutAudio.addEventListener('loadeddata', () => {
+//   let duration = scoutAudio.duration;
+// });
+
+// var engineerAudio = new Audio("https://wiki.teamfortress.com/w/images/8/84/Eng_aerobic_71.mp3");
+// engineerAudio.addEventListener('loadeddata', () => {
+//   let duration = engineerAudio.duration;
+// });
 
 //Create team array
 const teamArray = [Engineer, Manager, Intern];
@@ -151,11 +166,14 @@ function headOfHTML(){
       <link rel="stylesheet" href="./assets/style.css">
       <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
       <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+      </head>
+      <header>
       <title>teamHtmlGenerator</title><nav class="navbar navbar-dark bg-dark mb-5">
-      <span class="navbar-brand mb-0 h1 w-100 text-center">Team Profile Generator</span>
+      <span class="navbar-brand mb-0 h1 w-100 text-center">Team Fortre-File Generator</span>
   </nav>
-  </head>
-  <body><div class="container">`;
+  </header>
+  <main>
+  <body><div class="jumbotron jumbotron-fluid"><div class="container"><div class="justify-content-center align-items-center d-flex">`;
   fs.writeFileSync("./dist/index.html", headNode);
 }
 
@@ -170,12 +188,12 @@ function bodyofHTML(member) {
     if (role === "Manager") {
       const officeNumber = member.getOfficeNumber();
       information = `<div class="row"><div class="col-6">
-          <div class="card mx-auto mb-3" style="width: 18rem">
-          <h5 class="card-heading">${name}</h5>
-          <img class="card-img-top bg-transparent" src="./assets/manager.png" alt="managerImg">
+          <div class="card border-danger mx-auto mb-3 manager" style="width: 18rem">
+          <h5 class="card-heading border-danger">${name}</h5>
+          <img class="card-img-top bg-transparent border-danger" src="./assets/manager.png" alt="managerImg">
           <span class="badge badge-pill badge-danger">${role}</span>
-          <div class="card-body bg-light">
-          <ul class="list-group list-group-flush">
+          <div class="card-body bg-light text-danger">
+          <ul class="list-group list-group-flush text-danger">
               <li class="list-group-item">ID:${id}</li>
               <li class="list-group-item">Email Address: ${email}</li>
               <li class="list-group-item">Office Phone: ${officeNumber}</li> </
@@ -184,31 +202,31 @@ function bodyofHTML(member) {
     } else if (role === "Engineer") {
       const gitHub = member.getGithub();
       information = `<div class="row"><div class="col-6">
-            <div class="card mx-auto mb-3" style="width: 18rem">
-            <h5 class="card-heading">${name}</h5>
-            <img class="card-img-top bg-transparent" src="./assets/engineer.png" alt="engineerImg">
-            <span class="badge badge-pill badge-success">${role}</span>
-            <div class="card-body bg-light">
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">ID:${id}</li>
-                <li class="list-group-item">Email Address: ${email}</li>
-                <li class="list-group-item">Github Username: ${gitHub}</li> </
-            </ul>
-            </div></div></div>`;
+      <div class="card border-success mx-auto mb-3 engineer" style="width: 18rem">
+      <h5 class="card-heading border-success">${name}</h5>
+      <img class="card-img-top bg-transparent border-success" src="./assets/engineer.png" alt="engineerImg">
+      <span class="badge badge-pill badge-success">${role}</span>
+      <div class="card-body bg-light text-success">
+      <ul class="list-group list-group-flush text-success">
+          <li class="list-group-item">ID:${id}</li>
+          <li class="list-group-item">Email Address: ${email}</li>
+          <li class="list-group-item">Github Username: ${gitHub}</li> </
+      </ul>
+      </div></div></div>`;
     } else if (role === "Intern") {
       const school = member.getSchool();
       information = `<div class="row"><div class="col-6">
-              <div class="card mx-auto mb-3" style="width: 18rem">
-              <h5 class="card-heading">${name}</h5>
-              <img class="card-img-top bg-transparent" src="./assets/intern.png" alt="internImg">
-              <span class="badge badge-pill badge-success">${role}</span>
-              <div class="card-body bg-light">
-              <ul class="list-group list-group-flush">
-                  <li class="list-group-item">ID:${id}</li>
-                  <li class="list-group-item">Email Address: ${email}</li>
-                  <li class="list-group-item">School: ${school}</li> </
-              </ul>
-              </div></div></div>`;
+      <div class="card border-primary mx-auto mb-3 intern" style="width: 18rem">
+      <h5 class="card-heading border-primary">${name}</h5>
+      <img class="card-img-top bg-transparent border-primary" src="./assets/intern.png" alt="internImg">
+      <span class="badge badge-pill badge-primary">${role}</span>
+      <div class="card-body bg-light text-primary">
+      <ul class="list-group list-group-flush text-primary">
+          <li class="list-group-item">ID:${id}</li>
+          <li class="list-group-item">Email Address: ${email}</li>
+          <li class="list-group-item">School Name: ${school}</li> </
+      </ul>
+      </div></div></div>`;
     }
 
     console.log("All Info Gathered For Team Member ");
@@ -217,7 +235,8 @@ function bodyofHTML(member) {
 }
 
 function tailHTML(){
-  const html = ` </div></div></body></html>`;
+  const html = ` </div></div></div></div></main><script src="/index.js" type="text.javascript"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script></body></html>`;
 
   fs.writeFileSync("./dist/index.html", html, {flag: 'a'});
   console.log("Inquiry Complete!");
