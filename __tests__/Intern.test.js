@@ -1,6 +1,4 @@
-const Employee = require('../lib/Intern');
-
-
+const Intern = require("../lib/Intern");
 
 //  example test
 // test("Some test in which you are going to prove", () => {

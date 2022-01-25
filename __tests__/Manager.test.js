@@ -1,4 +1,5 @@
-const Employee = require('../lib/Manager');
+const Manager = require("../lib/Manager");
+
 
 
 //  example test
